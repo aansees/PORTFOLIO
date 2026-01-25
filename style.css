@@ -1,0 +1,89 @@
+/* Global */
+body {
+  margin:0;
+  font-family:'Courier New', monospace;
+  background:#0d1117;
+  color:#c9d1d9;
+  overflow-x:hidden;
+}
+
+/* Headers */
+h1,h2{ color:#2ea043; }
+h1 span{ color:#58a6ff; }
+
+/* Hero Section */
+#hero{
+  position:relative;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding:0 5%;
+  overflow:hidden;
+}
+#hero-canvas{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:1;
+}
+.hero-text{
+  z-index:2;
+  max-width:600px;
+}
+.hero-text h1{ font-size:3rem; margin-bottom:10px; }
+.hero-text p{ font-size:1.2rem; color:#8b949e; }
+
+/* Sections */
+section{ padding:50px 5%; }
+
+/* Project & Lab Cards */
+.project-grid,.lab-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+.project-card,.lab-card{
+  background:#161b22;
+  border:1px solid #30363d;
+  border-radius:10px;
+  padding:20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  opacity:0; transform:translateY(20px);
+}
+.project-card.show,.lab-card.show{ opacity:1; transform:translateY(0);}
+.project-card:hover,.lab-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 20px #2ea043;
+}
+.project-card h3,.lab-card h3{ color:#2ea043; margin-bottom:10px; }
+.project-card span,.lab-card span{ color:#58a6ff; font-size:0.85rem; }
+.lab-card a{ color:#58a6ff; text-decoration:none; font-size:0.9rem;}
+.lab-card a:hover{text-decoration:underline;}
+
+/* Skills */
+.skills-grid{ display:flex; flex-wrap:wrap; gap:15px; }
+.skills-grid span{
+  background:#161b22;
+  border:1px solid #30363d;
+  border-radius:5px;
+  padding:8px 12px;
+  transition: transform 0.3s, color 0.3s;
+}
+.skills-grid span:hover{ transform:scale(1.1); color:#58a6ff; }
+
+/* Terminal */
+#terminal{ background:#161b22; padding:30px; border-radius:10px; }
+#terminal-input{ width:100%; padding:10px; background:#0d1117; border:1px solid #30363d; color:#c9d1d9; font-family: monospace; }
+.terminal-output{ margin-bottom:10px; white-space:pre-wrap; font-family: monospace; }
+
+/* Contact */
+#contact a{ color:#58a6ff; text-decoration:none;}
+#contact a:hover{text-decoration:underline;}
+
+/* Responsive */
+@media(max-width:900px){
+  #hero{flex-direction:column; justify-content:center;}
+  .hero-text{margin-bottom:20px; text-align:center;}
+  .hero-text h1{ font-size:2.5rem; }
+}
