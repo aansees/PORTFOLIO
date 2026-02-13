@@ -145,15 +145,16 @@ button:hover {
     <h2>Still choosing you.</h2>
 
     <button onclick="showQuestion()">One More Thing</button>
+    
 
     <div id="question" class="hidden">
-      <h1>Will you keep choosing me too?</h1>
-      <p style="margin-top:20px;">Build Complete.</p>
-      <p>Deployed: Forever.</p>
-    </div>
-  </div>
-</div>
+  <h1>Will you keep choosing me too?</h1>
+  <p style="margin-top:20px;">Build Complete.</p>
+  <p>Deployed: Forever.</p>
 
+  <button id="choice-btn">Yes / No</button>
+  <p>Attempts: <span id="no-count">0</span></p>
+</div>
 <script>
 const terminal = document.getElementById("terminal");
 const finalContent = document.getElementById("final-content");
