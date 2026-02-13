@@ -91,6 +91,7 @@ button {
 
 button:hover {
   opacity: 0.85;
+}
 body.pink-theme {
   background: #ffc0cb; /* soft pink */
   color: #fff;
@@ -112,7 +113,6 @@ button {
 button:hover {
   transform: scale(1.1);
   background: #ffb6c1;
-}
 }
 </style>
 </head>
@@ -167,10 +167,8 @@ button:hover {
     <h2>Still choosing you.</h2>
 
     <button onclick="showQuestion()">One More Thing</button>
-    
-
-    
-<div id="question" class="hidden">
+  
+    <div id="question" class="hidden">
   <h1>Will you keep choosing me too?</h1>
   <p style="margin-top:20px;">Build Complete.</p>
   <p>Deployed: Forever.</p>
@@ -240,34 +238,9 @@ function unlockFuture() {
   document.getElementById("future").classList.remove("hidden");
 }
 
-
 function showQuestion() {
-  const question = document.getElementById("question");
-  question.classList.remove("hidden");
-
-  let noCount = 0;
-  const yesBtn = document.getElementById("yes-btn");
-  const noBtn = document.getElementById("no-btn");
-  const counterMsg = document.getElementById("counter-msg");
-
-  // Apply pink theme
-  document.body.classList.add("pink-theme");
-
-  yesBtn.onclick = () => {
-    alert("🥰 She said YES! Love wins! 🥰");
-    yesBtn.disabled = true;
-    noBtn.disabled = true;
-    counterMsg.textContent = `It took ${noCount} times for her to say YES!`;
-  };
-
-  noBtn.onclick = () => {
-    noCount++;
-    counterMsg.textContent = `She said NO ${noCount} time(s). Try again ❤️`;
-    
-    // optional: move button slightly to be playful
-    noBtn.style.transform = `translate(${Math.random()*50-25}px, ${Math.random()*20-10}px)`;
-  };
-};
+  document.getElementById("question").classList.remove("hidden");
+}
 
 // start cinematic
 startProtocol();
