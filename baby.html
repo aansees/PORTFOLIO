@@ -147,10 +147,18 @@ button:hover {
     <button onclick="showQuestion()">One More Thing</button>
     
 
-    <div id="question" class="hidden">
-  <h1>Will you keep choosing me too?</h1>
-  <p style="margin-top:20px;">Build Complete.</p>
-  <p>Deployed: Forever.</p>
+    
+ <div id="choice-section" class="hidden" style="text-align:center; margin-top:30px;">
+  <h2>Do you promise to keep choosing me too?</h2>
+  <button id="yes-btn">Yes 💖</button>
+  <button id="no-btn">No 😢</button>
+</div>
+
+<div id="final-celebration" class="hidden" style="text-align:center; margin-top:30px;">
+  <h1>Yay! 💕 We're forever!</h1>
+  <p>Thank you for choosing me! 🥰</p>
+  <div id="hearts-container"></div>
+</div>
 
   <button id="choice-btn">Yes / No</button>
   <p>Attempts: <span id="no-count">0</span></p>
