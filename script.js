@@ -31,20 +31,18 @@ const geometries = [
   new THREE.BoxGeometry(0.045,0.045,0.045)
 ];
 
-// create nodes in spread out positions
+// create nodes
 for(let i=0;i<NODE_COUNT;i++){
   const geo = geometries[Math.floor(Math.random()*geometries.length)];
   const color = colors[Math.floor(Math.random()*colors.length)];
   const mat = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.8});
   const node = new THREE.Mesh(geo, mat);
 
-  // spread nodes in 3D, avoiding overlapping text area (Y>0 is top)
   const x = (Math.random()-0.5)*10;
-  const y = (Math.random()*4 - 2); // keep mostly within canvas top half
+  const y = (Math.random()*4 - 2);
   const z = (Math.random()-0.5)*6;
   node.position.set(x,y,z);
 
-  // velocity for smooth motion
   node.userData.vel = new THREE.Vector3(
     (Math.random()-0.5)*0.0015,
     (Math.random()-0.5)*0.0015,
@@ -70,7 +68,6 @@ function updateLines(){
       linePositions[idx*3+4] = other.position.y;
       linePositions[idx*3+5] = other.position.z;
 
-      // line color based on distance
       const c = 1 - dists[k].dist/4;
       const col = new THREE.Color().setHSL(0.6,1,Math.max(0.25,c*0.8));
       lineColors[idx*6+0] = col.r;
@@ -95,19 +92,15 @@ function animate(){
   nodes.forEach(n=>{
     n.position.add(n.userData.vel);
 
-    // bounce inside canvas box
     if(Math.abs(n.position.x) > 5) n.userData.vel.x *= -1;
     if(Math.abs(n.position.y) > 2.5) n.userData.vel.y *= -1;
     if(Math.abs(n.position.z) > 3) n.userData.vel.z *= -1;
 
-    // pulsing glow
     const pulse = 0.6 + Math.sin(Date.now()*0.002 + n.position.x + n.position.y)*0.4;
     n.material.opacity = pulse;
   });
 
   updateLines();
-
-  // slow rotation for 3D depth
   scene.rotation.y += 0.0012;
   renderer.render(scene, camera);
 }
@@ -128,12 +121,9 @@ window.addEventListener('resize', ()=>{
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-
 // -----------------
-// Keep the rest of your code exactly as-is
-// -----------------
-
 // Projects Section
+// -----------------
 const projects = [
   {name:"Secure Auth API",desc:"JWT auth with refresh tokens",tech:"Node • JWT • Security"},
   {name:"Password Checker",desc:"Check password strength & breaches",tech:"JS • Crypto"},
@@ -148,7 +138,9 @@ projects.forEach((p,i)=>{
   setTimeout(()=>div.classList.add('show'), i*200);
 });
 
+// -----------------
 // Lab Section
+// -----------------
 const labProjects = [
   {title:"Password Tool",desc:"Analyze password safety",tech:"JS • Security",link:"#"},
   {title:"API Demo",desc:"Secure API endpoints",tech:"Node.js",link:"#"},
@@ -169,7 +161,9 @@ labProjects.forEach((p,i)=>{
   setTimeout(()=>div.classList.add('show'), i*200);
 });
 
+// -----------------
 // Skills Section
+// -----------------
 const skillsList = ["JavaScript","HTML/CSS","Node.js","React","Git/GitHub","Linux","Network Security","OWASP Top 10"];
 const skillsGrid = document.getElementById('skills-grid');
 skillsList.forEach(s=>{
@@ -178,14 +172,16 @@ skillsList.forEach(s=>{
   skillsGrid.appendChild(span);
 });
 
+// -----------------
 // Terminal Section
+// -----------------
 const terminalInput = document.getElementById('terminal-input');
-console.log("Key pressed:", e.key, "Input value:", terminalInput.value);
 const terminalOutput = document.getElementById('terminal-output');
+
 terminalInput.addEventListener('keydown', function(e){
   if(e.key==='Enter'){
     const cmd = terminalInput.value.trim().toLowerCase();
-    
+
     if(cmd==='help') terminalOutput.textContent='commands:\nwhoami\nprojects\nskills\nbanner';
     else if(cmd==='whoami') terminalOutput.textContent='Security-focused Developer';
     else if(cmd==='projects') terminalOutput.textContent = projects.map(p=>p.name).join('\n');
@@ -195,38 +191,22 @@ terminalInput.addEventListener('keydown', function(e){
       nodes.forEach(n=>n.material.color.set(0x58a6ff));
       setTimeout(()=>nodes.forEach(n=>n.material.color.set(0x2ea043)),500);
     }
-    else terminalOutput.textContent='Command not found';
+    // ----------------- NEW SECRET COMMAND -----------------
     else if(cmd === 'baby'){
       console.log("Baby command detected → redirecting");
-      window.location.href = "baby.html"; // make sure baby.html is in the same folder
-      return; // stop further handling
-}
-    
+      window.location.href = "baby.html"; // make sure baby.html is in same folder
+      return;
+    }
+    // -------------------------------------------------------
+    else terminalOutput.textContent='Command not found';
+
     terminalInput.value='';
   }
 });
 
-// Responsive
+// Responsive window
 window.addEventListener('resize', ()=>{
   camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
-// ================= BABY SECRET REDIRECT =================
-// Keep your existing terminal listener intact, this is an additional listener
-(function(){
-  const terminalInput = document.getElementById('terminal-input');
-  if(!terminalInput) return; // safety check
-
-  terminalInput.addEventListener('keydown', function(e){
-    if(e.key === 'Enter'){
-      const value = terminalInput.value.trim().toLowerCase();
-      if(value === 'baby'){
-        // optional: debug log
-        console.log("Baby command detected → redirecting to secret page");
-        // redirect to baby.html in same folder
-        window.location.href = "baby.html";
-      }
-    }
-  });
-})();
