@@ -223,6 +223,86 @@ function unlockFuture() {
 function showQuestion() {
   document.getElementById("question").classList.remove("hidden");
 }
+// -------- Choice Button Game --------
+const choiceSection = document.getElementById("choice-section");
+const yesBtn = document.getElementById("yes-btn");
+const noBtn = document.getElementById("no-btn");
+const finalCelebration = document.getElementById("final-celebration");
+const heartsContainer = document.getElementById("hearts-container");
+
+let noClicks = 0;
+
+// Show the choice section after question appears
+function showChoice() {
+  choiceSection.classList.remove("hidden");
+}
+
+// Yes button clicked
+yesBtn.addEventListener("click", () => {
+  choiceSection.classList.add("hidden");
+  finalCelebration.classList.remove("hidden");
+  document.body.style.background = "#ffccdd"; // pink background
+  launchHearts();
+});
+
+// No button clicked
+noBtn.addEventListener("click", () => {
+  noClicks++;
+  
+  // Increase size and move randomly
+  const randX = Math.random() * 200 - 100;
+  const randY = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${randX}px, ${randY}px) scale(${1 + noClicks*0.2})`;
+  noBtn.style.transition = "all 0.4s ease";
+
+  // Change theme gradually to pink
+  const pinkIntensity = Math.min(255, 180 + noClicks*10);
+  document.body.style.background = `rgb(255, ${pinkIntensity}, ${pinkIntensity})`;
+
+  // Add fun text hint after a few clicks
+  if(noClicks === 3){
+    const hint = document.createElement("p");
+    hint.textContent = "Come on… you know the answer ❤️";
+    hint.style.color = "#fff";
+    hint.style.fontWeight = "bold";
+    choiceSection.appendChild(hint);
+  }
+});
+
+// Launch floating hearts
+function launchHearts() {
+  for(let i=0; i<30; i++){
+    const heart = document.createElement("div");
+    heart.textContent = "💖";
+    heart.style.position = "absolute";
+    heart.style.fontSize = `${Math.random()*30 + 20}px`;
+    heart.style.left = `${Math.random()*window.innerWidth}px`;
+    heart.style.top = `${Math.random()*window.innerHeight}px`;
+    heart.style.opacity = 0.8;
+    heart.style.pointerEvents = "none";
+    heartsContainer.appendChild(heart);
+
+    // animate falling hearts
+    const fallDuration = Math.random()*3 + 2;
+    heart.animate([
+      { transform: `translateY(0px) rotate(0deg)` },
+      { transform: `translateY(${window.innerHeight}px) rotate(${Math.random()*360}deg)` }
+    ], { duration: fallDuration*1000, iterations: 1, easing:"linear" });
+
+    // remove after falling
+    setTimeout(() => heart.remove(), fallDuration*1000);
+  }
+}
+
+// Trigger choice section after question appears
+const questionSection = document.getElementById("question");
+const observer = new MutationObserver(() => {
+  if(!questionSection.classList.contains("hidden")){
+    showChoice();
+    observer.disconnect();
+  }
+});
+observer.observe(questionSection, { attributes: true, attributeFilter: ["class"] });
 
 // start cinematic
 startProtocol();
