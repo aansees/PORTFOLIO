@@ -220,27 +220,17 @@ const noCount = document.getElementById("no-count");
 let tries = 0;
 
 choiceBtn.addEventListener("click", () => {
-  // Randomly decide yes/no if she clicks "No"
-  const answer = prompt("Will you choose me? (type yes/no)").toLowerCase().trim();
+<div id="choice-section" class="hidden" style="text-align:center; margin-top:30px;">
+  <h2>Do you promise to keep choosing me too?</h2>
+  <button id="yes-btn">Yes 💖</button>
+  <button id="no-btn">No 😢</button>
+</div>
 
-  if(answer === "yes"){
-    // Change theme to pink / girl type
-    document.body.style.background = "#ffe0f0";
-    document.body.style.color = "#ff1a75";
-    document.querySelectorAll("button").forEach(b=>{
-      b.style.background = "#ff99cc";
-      b.style.color = "#fff";
-    });
-    alert("Yay! You chose yes 💖");
-    choiceBtn.disabled = true; // disable after yes
-  } else {
-    // Increment counter and show a playful message
-    tries++;
-    noCount.textContent = tries;
-    alert("Hmm… let's try again 😘");
-  }
-});
-
+<div id="final-celebration" class="hidden" style="text-align:center; margin-top:30px;">
+  <h1>Yay! 💕 We're forever!</h1>
+  <p>Thank you for choosing me! 🥰</p>
+  <div id="hearts-container"></div>
+</div>
 // start cinematic
 startProtocol();
 </script>
