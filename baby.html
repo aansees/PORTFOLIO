@@ -91,6 +91,28 @@ button {
 
 button:hover {
   opacity: 0.85;
+body.pink-theme {
+  background: #ffc0cb; /* soft pink */
+  color: #fff;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+button {
+  background: #fff;
+  color: #ff1493; /* hot pink text */
+  font-weight: bold;
+  margin: 10px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 2px solid #ff69b4;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.1);
+  background: #ffb6c1;
+}
 }
 </style>
 </head>
@@ -148,20 +170,18 @@ button:hover {
     
 
     
- <div id="choice-section" class="hidden" style="text-align:center; margin-top:30px;">
-  <h2>Do you promise to keep choosing me too?</h2>
-  <button id="yes-btn">Yes 💖</button>
-  <button id="no-btn">No 😢</button>
-</div>
+<div id="question" class="hidden">
+  <h1>Will you keep choosing me too?</h1>
+  <p style="margin-top:20px;">Build Complete.</p>
+  <p>Deployed: Forever.</p>
 
-<div id="final-celebration" class="hidden" style="text-align:center; margin-top:30px;">
-  <h1>Yay! 💕 We're forever!</h1>
-  <p>Thank you for choosing me! 🥰</p>
-  <div id="hearts-container"></div>
-</div>
+  <!-- Choice buttons -->
+  <div id="choice-buttons">
+    <button id="yes-btn">Yes ❤️</button>
+    <button id="no-btn">No 💔</button>
+  </div>
 
-  <button id="choice-btn">Yes / No</button>
-  <p>Attempts: <span id="no-count">0</span></p>
+  <p id="counter-msg" style="margin-top:15px;"></p>
 </div>
 <script>
 const terminal = document.getElementById("terminal");
@@ -220,89 +240,34 @@ function unlockFuture() {
   document.getElementById("future").classList.remove("hidden");
 }
 
+
 function showQuestion() {
-  document.getElementById("question").classList.remove("hidden");
-}
-// -------- Choice Button Game --------
-const choiceSection = document.getElementById("choice-section");
-const yesBtn = document.getElementById("yes-btn");
-const noBtn = document.getElementById("no-btn");
-const finalCelebration = document.getElementById("final-celebration");
-const heartsContainer = document.getElementById("hearts-container");
+  const question = document.getElementById("question");
+  question.classList.remove("hidden");
 
-let noClicks = 0;
+  let noCount = 0;
+  const yesBtn = document.getElementById("yes-btn");
+  const noBtn = document.getElementById("no-btn");
+  const counterMsg = document.getElementById("counter-msg");
 
-// Show the choice section after question appears
-function showChoice() {
-  choiceSection.classList.remove("hidden");
-}
+  // Apply pink theme
+  document.body.classList.add("pink-theme");
 
-// Yes button clicked
-yesBtn.addEventListener("click", () => {
-  choiceSection.classList.add("hidden");
-  finalCelebration.classList.remove("hidden");
-  document.body.style.background = "#ffccdd"; // pink background
-  launchHearts();
-});
+  yesBtn.onclick = () => {
+    alert("🥰 She said YES! Love wins! 🥰");
+    yesBtn.disabled = true;
+    noBtn.disabled = true;
+    counterMsg.textContent = `It took ${noCount} times for her to say YES!`;
+  };
 
-// No button clicked
-noBtn.addEventListener("click", () => {
-  noClicks++;
-  
-  // Increase size and move randomly
-  const randX = Math.random() * 200 - 100;
-  const randY = Math.random() * 200 - 100;
-  noBtn.style.transform = `translate(${randX}px, ${randY}px) scale(${1 + noClicks*0.2})`;
-  noBtn.style.transition = "all 0.4s ease";
-
-  // Change theme gradually to pink
-  const pinkIntensity = Math.min(255, 180 + noClicks*10);
-  document.body.style.background = `rgb(255, ${pinkIntensity}, ${pinkIntensity})`;
-
-  // Add fun text hint after a few clicks
-  if(noClicks === 3){
-    const hint = document.createElement("p");
-    hint.textContent = "Come on… you know the answer ❤️";
-    hint.style.color = "#fff";
-    hint.style.fontWeight = "bold";
-    choiceSection.appendChild(hint);
-  }
-});
-
-// Launch floating hearts
-function launchHearts() {
-  for(let i=0; i<30; i++){
-    const heart = document.createElement("div");
-    heart.textContent = "💖";
-    heart.style.position = "absolute";
-    heart.style.fontSize = `${Math.random()*30 + 20}px`;
-    heart.style.left = `${Math.random()*window.innerWidth}px`;
-    heart.style.top = `${Math.random()*window.innerHeight}px`;
-    heart.style.opacity = 0.8;
-    heart.style.pointerEvents = "none";
-    heartsContainer.appendChild(heart);
-
-    // animate falling hearts
-    const fallDuration = Math.random()*3 + 2;
-    heart.animate([
-      { transform: `translateY(0px) rotate(0deg)` },
-      { transform: `translateY(${window.innerHeight}px) rotate(${Math.random()*360}deg)` }
-    ], { duration: fallDuration*1000, iterations: 1, easing:"linear" });
-
-    // remove after falling
-    setTimeout(() => heart.remove(), fallDuration*1000);
-  }
-}
-
-// Trigger choice section after question appears
-const questionSection = document.getElementById("question");
-const observer = new MutationObserver(() => {
-  if(!questionSection.classList.contains("hidden")){
-    showChoice();
-    observer.disconnect();
-  }
-});
-observer.observe(questionSection, { attributes: true, attributeFilter: ["class"] });
+  noBtn.onclick = () => {
+    noCount++;
+    counterMsg.textContent = `She said NO ${noCount} time(s). Try again ❤️`;
+    
+    // optional: move button slightly to be playful
+    noBtn.style.transform = `translate(${Math.random()*50-25}px, ${Math.random()*20-10}px)`;
+  };
+};
 
 // start cinematic
 startProtocol();
