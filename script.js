@@ -193,6 +193,11 @@ terminalInput.addEventListener('keydown', function(e){
       nodes.forEach(n=>n.material.color.set(0x58a6ff));
       setTimeout(()=>nodes.forEach(n=>n.material.color.set(0x2ea043)),500);
     }
+    // Add this inside your terminal command handler
+    else if (command.toLowerCase().trim() === "baby") {
+    window.location.href = "baby.html";
+    return;
+}
     else terminalOutput.textContent='Command not found';
     terminalInput.value='';
   }
