@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +22,16 @@ body {
 }
 
 .hidden { display: none; }
+
+.glitch {
+  animation: glitch 0.2s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(2px, -2px); }
+  50% { transform: translate(-2px, 2px); }
+  100% { transform: translate(2px, 2px); }
+}
 
 .reveal {
   text-align: center;
@@ -98,13 +107,13 @@ button:hover {
     <img src="memory2.jpg" class="memory">
 
     <p>
-      Late night drives.
-      Random food runs.
+      Late night drives.  
+      Random food runs.  
       Dumb arguments we laugh about later.
     </p>
 
     <p>
-      Growing. Failing. Fixing. Learning.
+      Growing. Failing. Fixing. Learning.  
       Choosing each other anyway.
     </p>
 
@@ -140,13 +149,17 @@ function typeLine(text, speed = 35) {
 }
 
 async function startProtocol() {
-
   if (localStorage.getItem("babyUnlocked")) {
     terminal.innerHTML = "This build has already been deployed.<br><br>Some things are meant to happen once.";
     return;
   }
 
   localStorage.setItem("babyUnlocked", "true");
+
+  terminal.classList.add("glitch");
+
+  await new Promise(r => setTimeout(r, 800));
+  terminal.classList.remove("glitch");
 
   await typeLine("Keyword detected...");
   await typeLine("Verifying identity...");
@@ -177,6 +190,7 @@ function showQuestion() {
   document.getElementById("question").classList.remove("hidden");
 }
 
+// start cinematic
 startProtocol();
 </script>
 
