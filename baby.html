@@ -215,6 +215,31 @@ function unlockFuture() {
 function showQuestion() {
   document.getElementById("question").classList.remove("hidden");
 }
+  const choiceBtn = document.getElementById("choice-btn");
+const noCount = document.getElementById("no-count");
+let tries = 0;
+
+choiceBtn.addEventListener("click", () => {
+  // Randomly decide yes/no if she clicks "No"
+  const answer = prompt("Will you choose me? (type yes/no)").toLowerCase().trim();
+
+  if(answer === "yes"){
+    // Change theme to pink / girl type
+    document.body.style.background = "#ffe0f0";
+    document.body.style.color = "#ff1a75";
+    document.querySelectorAll("button").forEach(b=>{
+      b.style.background = "#ff99cc";
+      b.style.color = "#fff";
+    });
+    alert("Yay! You chose yes 💖");
+    choiceBtn.disabled = true; // disable after yes
+  } else {
+    // Increment counter and show a playful message
+    tries++;
+    noCount.textContent = tries;
+    alert("Hmm… let's try again 😘");
+  }
+});
 
 // start cinematic
 startProtocol();
