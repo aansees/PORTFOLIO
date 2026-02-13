@@ -1,1 +1,184 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Build</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: #00ff9f;
+  font-family: monospace;
+  padding: 40px;
+  overflow-x: hidden;
+}
+
+#terminal {
+  white-space: pre-line;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.hidden { display: none; }
+
+.reveal {
+  text-align: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin-top: 80px;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.memory {
+  max-width: 320px;
+  margin: 30px auto;
+  display: block;
+  border-radius: 14px;
+}
+
+button {
+  padding: 12px 24px;
+  margin-top: 20px;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+</style>
+</head>
+
+<body>
+
+<div id="terminal"></div>
+
+<div id="final-content" class="hidden reveal">
+  <h1>Hi, baby.</h1>
+
+  <p>You weren’t supposed to find this.</p>
+  <p>But since you did… this is only for you.</p>
+
+  <img src="your-photo.jpg" class="memory">
+
+  <p>
+    I don’t say it enough, but you changed how I see life.
+    You made it calmer. Softer. Better.
+    And I don’t take that lightly.
+  </p>
+
+  <p>
+    Out of all timelines, all random chances,
+    all the possible versions of us —
+    I’m just grateful it’s this one.
+  </p>
+
+  <button onclick="playVoice()">Play Secret Message</button>
+  <audio id="voice" src="voice.mp3"></audio>
+
+  <br><br>
+
+  <button onclick="unlockFuture()">Continue</button>
+
+  <div id="future" class="hidden">
+    <h2>Future Loading...</h2>
+
+    <img src="memory2.jpg" class="memory">
+
+    <p>
+      Late night drives.
+      Random food runs.
+      Dumb arguments we laugh about later.
+    </p>
+
+    <p>
+      Growing. Failing. Fixing. Learning.
+      Choosing each other anyway.
+    </p>
+
+    <h2>Still choosing you.</h2>
+
+    <button onclick="showQuestion()">One More Thing</button>
+
+    <div id="question" class="hidden">
+      <h1>Will you keep choosing me too?</h1>
+      <p style="margin-top:20px;">Build Complete.</p>
+      <p>Deployed: Forever.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const terminal = document.getElementById("terminal");
+const finalContent = document.getElementById("final-content");
+
+function typeLine(text, speed = 35) {
+  return new Promise(resolve => {
+    let i = 0;
+    const interval = setInterval(() => {
+      terminal.innerHTML += text[i];
+      i++;
+      if (i >= text.length) {
+        clearInterval(interval);
+        terminal.innerHTML += "<br>";
+        resolve();
+      }
+    }, speed);
+  });
+}
+
+async function startProtocol() {
+
+  if (localStorage.getItem("babyUnlocked")) {
+    terminal.innerHTML = "This build has already been deployed.<br><br>Some things are meant to happen once.";
+    return;
+  }
+
+  localStorage.setItem("babyUnlocked", "true");
+
+  await typeLine("Keyword detected...");
+  await typeLine("Verifying identity...");
+  await typeLine("User recognized.");
+  await typeLine("Relationship status: Permanent.");
+  await typeLine("Initiating Baby Protocol...");
+  await typeLine("Loading Shared Memories... 24%");
+  await typeLine("Analyzing Smile Data... 67%");
+  await typeLine("Cuteness Overflow... 99%");
+  await typeLine("System overwhelmed.");
+  await typeLine("Switching to private build...");
+
+  setTimeout(() => {
+    terminal.classList.add("hidden");
+    finalContent.classList.remove("hidden");
+  }, 1200);
+}
+
+function playVoice() {
+  document.getElementById("voice").play();
+}
+
+function unlockFuture() {
+  document.getElementById("future").classList.remove("hidden");
+}
+
+function showQuestion() {
+  document.getElementById("question").classList.remove("hidden");
+}
+
+startProtocol();
+</script>
+
+</body>
+</html>
