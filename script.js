@@ -180,6 +180,7 @@ skillsList.forEach(s=>{
 
 // Terminal Section
 const terminalInput = document.getElementById('terminal-input');
+console.log("Key pressed:", e.key, "Input value:", terminalInput.value);
 const terminalOutput = document.getElementById('terminal-output');
 terminalInput.addEventListener('keydown', function(e){
   if(e.key==='Enter'){
