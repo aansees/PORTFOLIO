@@ -239,6 +239,8 @@ function unlockFuture() {
 function showQuestion() {
   document.getElementById("question").classList.remove("hidden");
 }
+
+
 const question = document.getElementById("question");
 const yesBtn = document.getElementById("yes-btn");
 const noBtn = document.getElementById("no-btn");
@@ -246,21 +248,20 @@ const counterMsg = document.getElementById("counter-msg");
 
 let noClicks = 0;
 
-// Show question section after page loads
+// Show question section on page load
 window.addEventListener("DOMContentLoaded", () => {
   question.classList.remove("hidden");
 });
 
 // Yes button click
 yesBtn.addEventListener("click", () => {
-  document.body.classList.add("pink-theme");
-  counterMsg.textContent = "Yay! 💕 We're forever!";
-  // Optionally hide buttons
-  document.getElementById("choice-buttons").style.display = "none";
-  launchHearts();
+  document.body.classList.add("pink-theme");           // Apply pink theme
+  counterMsg.textContent = "Yay! 💕 We're forever!";   // Celebration message
+  document.getElementById("choice-buttons").style.display = "none"; // Hide buttons
+  launchHearts();                                      // Start hearts animation
 });
 
-// No button click (dodging + hint)
+// No button click
 noBtn.addEventListener("click", () => {
   noClicks++;
 
@@ -272,12 +273,13 @@ noBtn.addEventListener("click", () => {
   noBtn.style.transform = `translate(${randX}px, ${randY}px) scale(${1 + noClicks*0.15})`;
   noBtn.style.transition = "all 0.4s cubic-bezier(.68,-0.55,.27,1.55)";
 
-  // Add a fun hint after 3 clicks
+  // Show hint after 3 clicks
   if(noClicks === 3) {
     counterMsg.textContent = "Come on… you know the answer ❤️";
   }
 });
 
+// Function to launch floating hearts
 function launchHearts() {
   const heartsContainer = document.createElement("div");
   heartsContainer.style.position = "fixed";
@@ -288,27 +290,26 @@ function launchHearts() {
   heartsContainer.style.pointerEvents = "none";
   document.body.appendChild(heartsContainer);
 
-  for(let i=0; i<30; i++){
+  for(let i = 0; i < 30; i++) {
     const heart = document.createElement("div");
     heart.textContent = "💖";
     heart.style.position = "absolute";
     heart.style.fontSize = `${Math.random()*30 + 20}px`;
-    heart.style.left = `${Math.random()*window.innerWidth}px`;
+    heart.style.left = `${Math.random() * window.innerWidth}px`;
     heart.style.top = `${window.innerHeight}px`;
     heartsContainer.appendChild(heart);
 
-    const rise = Math.random()*300 + 200;
-    const duration = Math.random()*3 + 2;
+    const rise = Math.random() * 300 + 200;
+    const duration = Math.random() * 3 + 2;
 
     heart.animate([
       { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
       { transform: `translateY(-${rise}px) rotate(${Math.random()*360}deg)`, opacity: 0 }
-    ], { duration: duration*1000, iterations: 1, easing:"ease-out" });
+    ], { duration: duration*1000, iterations: 1, easing: "ease-out" });
 
     setTimeout(() => heart.remove(), duration*1000);
   }
-} // <-- This closing brace is required
-
+}
 // start cinematic
 startProtocol();
 </script>
