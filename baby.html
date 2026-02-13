@@ -278,7 +278,6 @@ noBtn.addEventListener("click", () => {
   }
 });
 
-// Heart animation
 function launchHearts() {
   const heartsContainer = document.createElement("div");
   heartsContainer.style.position = "fixed";
@@ -308,6 +307,7 @@ function launchHearts() {
 
     setTimeout(() => heart.remove(), duration*1000);
   }
+} // <-- This closing brace is required
 
 // start cinematic
 startProtocol();
