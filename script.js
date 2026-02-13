@@ -196,6 +196,11 @@ terminalInput.addEventListener('keydown', function(e){
       setTimeout(()=>nodes.forEach(n=>n.material.color.set(0x2ea043)),500);
     }
     else terminalOutput.textContent='Command not found';
+    else if(cmd === 'baby'){
+      console.log("Baby command detected → redirecting");
+      window.location.href = "baby.html"; // make sure baby.html is in the same folder
+      return; // stop further handling
+}
     
     terminalInput.value='';
   }
