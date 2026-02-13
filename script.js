@@ -184,6 +184,7 @@ const terminalOutput = document.getElementById('terminal-output');
 terminalInput.addEventListener('keydown', function(e){
   if(e.key==='Enter'){
     const cmd = terminalInput.value.trim().toLowerCase();
+    
     if(cmd==='help') terminalOutput.textContent='commands:\nwhoami\nprojects\nskills\nbanner';
     else if(cmd==='whoami') terminalOutput.textContent='Security-focused Developer';
     else if(cmd==='projects') terminalOutput.textContent = projects.map(p=>p.name).join('\n');
@@ -193,12 +194,12 @@ terminalInput.addEventListener('keydown', function(e){
       nodes.forEach(n=>n.material.color.set(0x58a6ff));
       setTimeout(()=>nodes.forEach(n=>n.material.color.set(0x2ea043)),500);
     }
-    // Add this inside your terminal command handler
-    else if (command.toLowerCase().trim() === "baby") {
-    window.location.href = "baby.html";
-    return;
-}
+    else if(cmd === "baby") {   // <--- FIXED HERE
+      window.location.href = "baby.html";
+      return;
+    }
     else terminalOutput.textContent='Command not found';
+    
     terminalInput.value='';
   }
 });
