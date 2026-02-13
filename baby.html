@@ -137,7 +137,7 @@ button:hover {
 
   <p>
     Out of all timelines, all random chances,
-    all the possible versions of us —
+    all the possible versions of us
     I’m just grateful it’s this one.
   </p>
 
@@ -161,7 +161,7 @@ button:hover {
 
     <p>
       Growing. Failing. Fixing. Learning.  
-      Choosing each other anyway.
+      BUT
     </p>
 
     <h2>Still choosing you.</h2>
@@ -170,8 +170,6 @@ button:hover {
   
     <div id="question" class="hidden">
   <h1>Will you keep choosing me too?</h1>
-  <p style="margin-top:20px;">Build Complete.</p>
-  <p>Deployed: Forever.</p>
 
   <!-- Choice buttons -->
   <div id="choice-buttons">
@@ -241,33 +239,75 @@ function unlockFuture() {
 function showQuestion() {
   document.getElementById("question").classList.remove("hidden");
 }
-function showQuestion() {
-  const question = document.getElementById("question");
+const question = document.getElementById("question");
+const yesBtn = document.getElementById("yes-btn");
+const noBtn = document.getElementById("no-btn");
+const counterMsg = document.getElementById("counter-msg");
+
+let noClicks = 0;
+
+// Show question section after page loads
+window.addEventListener("DOMContentLoaded", () => {
   question.classList.remove("hidden");
+});
 
-  let noCount = 0;
-  const yesBtn = document.getElementById("yes-btn");
-  const noBtn = document.getElementById("no-btn");
-  const counterMsg = document.getElementById("counter-msg");
-
-  // Apply pink theme
+// Yes button click
+yesBtn.addEventListener("click", () => {
   document.body.classList.add("pink-theme");
+  counterMsg.textContent = "Yay! 💕 We're forever!";
+  // Optionally hide buttons
+  document.getElementById("choice-buttons").style.display = "none";
+  launchHearts();
+});
 
-  yesBtn.onclick = () => {
-    alert("🥰 She said YES! Love wins! 🥰");
-    yesBtn.disabled = true;
-    noBtn.disabled = true;
-    counterMsg.textContent = `It took ${noCount} times for her to say YES!`;
-  };
+// No button click (dodging + hint)
+noBtn.addEventListener("click", () => {
+  noClicks++;
 
-  noBtn.onclick = () => {
-    noCount++;
-    counterMsg.textContent = `She said NO ${noCount} time(s). Try again ❤️`;
-    
-    // optional: move button slightly to be playful
-    noBtn.style.transform = `translate(${Math.random()*50-25}px, ${Math.random()*20-10}px)`;
-  };
-}
+  // Move No button randomly within viewport
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+  const randX = Math.random() * maxX;
+  const randY = Math.random() * maxY;
+  noBtn.style.transform = `translate(${randX}px, ${randY}px) scale(${1 + noClicks*0.15})`;
+  noBtn.style.transition = "all 0.4s cubic-bezier(.68,-0.55,.27,1.55)";
+
+  // Add a fun hint after 3 clicks
+  if(noClicks === 3) {
+    counterMsg.textContent = "Come on… you know the answer ❤️";
+  }
+});
+
+// Heart animation
+function launchHearts() {
+  const heartsContainer = document.createElement("div");
+  heartsContainer.style.position = "fixed";
+  heartsContainer.style.top = "0";
+  heartsContainer.style.left = "0";
+  heartsContainer.style.width = "100%";
+  heartsContainer.style.height = "100%";
+  heartsContainer.style.pointerEvents = "none";
+  document.body.appendChild(heartsContainer);
+
+  for(let i=0; i<30; i++){
+    const heart = document.createElement("div");
+    heart.textContent = "💖";
+    heart.style.position = "absolute";
+    heart.style.fontSize = `${Math.random()*30 + 20}px`;
+    heart.style.left = `${Math.random()*window.innerWidth}px`;
+    heart.style.top = `${window.innerHeight}px`;
+    heartsContainer.appendChild(heart);
+
+    const rise = Math.random()*300 + 200;
+    const duration = Math.random()*3 + 2;
+
+    heart.animate([
+      { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
+      { transform: `translateY(-${rise}px) rotate(${Math.random()*360}deg)`, opacity: 0 }
+    ], { duration: duration*1000, iterations: 1, easing:"ease-out" });
+
+    setTimeout(() => heart.remove(), duration*1000);
+  }
 
 // start cinematic
 startProtocol();
