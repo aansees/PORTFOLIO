@@ -195,10 +195,6 @@ terminalInput.addEventListener('keydown', function(e){
       nodes.forEach(n=>n.material.color.set(0x58a6ff));
       setTimeout(()=>nodes.forEach(n=>n.material.color.set(0x2ea043)),500);
     }
-    else if(cmd === "baby") {   // <--- FIXED HERE
-      window.location.href = "baby.html";
-      return;
-    }
     else terminalOutput.textContent='Command not found';
     
     terminalInput.value='';
@@ -211,4 +207,21 @@ window.addEventListener('resize', ()=>{
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+// ================= BABY SECRET REDIRECT =================
+// Keep your existing terminal listener intact, this is an additional listener
+(function(){
+  const terminalInput = document.getElementById('terminal-input');
+  if(!terminalInput) return; // safety check
 
+  terminalInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      const value = terminalInput.value.trim().toLowerCase();
+      if(value === 'baby'){
+        // optional: debug log
+        console.log("Baby command detected → redirecting to secret page");
+        // redirect to baby.html in same folder
+        window.location.href = "baby.html";
+      }
+    }
+  });
+})();
