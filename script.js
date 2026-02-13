@@ -177,7 +177,9 @@ skillsList.forEach(s=>{
 // -----------------
 const terminalInput = document.getElementById('terminal-input');
 const terminalOutput = document.getElementById('terminal-output');
-
+// add before typing starts
+terminal.setAttribute('data-text', "Keyword detected...");
+terminal.classList.add("glitch");
 terminalInput.addEventListener('keydown', function(e){
   if(e.key==='Enter'){
     const cmd = terminalInput.value.trim().toLowerCase();
